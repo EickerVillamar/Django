@@ -1,0 +1,55 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded shadow">
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">Crear nuevo producto</h1>
+
+  <form method="POST" class="space-y-4">
+    {% csrf_token %}
+    
+    {% for field in form %}
+      <div>
+        <label class="block text-sm font-medium text-gray-700">
+          {{ field.label }}
+        </label>
+
+        <div class="mt-1">
+          {{ field }}
+        </div>
+        {% if field.errors %}
+          <p class="text-red-500 text-xs mt-1">{{ field.errors|striptags }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <button type="submit" class="w-full mt-4 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition font-semibold">
+      Guardar producto
+    </button>
+  </form>
+</div>
+{% endblock %}
+
+
+<!--  
+  extends 
+  blck contnt
+
+<h1 class="text-2xl font-bold mb-6">
+Crear nuevo producto
+</h1>
+
+<form method="POST">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<button class="bg-blue-500 text-white px-4 py-2 rounded">
+Guardar producto
+</button>
+
+</form>
+
+  blck cntnt
+
+-->
