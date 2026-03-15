@@ -3,17 +3,29 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Producto
 from .forms import ProductoForm
+from django.core.paginator import Paginator
 
 def inicio(request):
     return HttpResponse("Hola, estás entrando a tu primer proyecto Django")
 
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from .models import Producto
+
+
 def lista_productos(request):
     query = request.GET.get("q")
-
+    orden = request.GET.get("orden")
+    productos_list = Producto.objects.all()
     if query:
-        productos = Producto.objects.filter(nombre__icontains=query)  #Es el lookup, en este contexto "Contiene la palabra sin importar mayúsculas"
-    else:
-        productos = Producto.objects.all()
+        productos_list = productos_list.filter(nombre__icontains=query)
+
+    if orden:
+        productos_list = productos_list.order_by(orden)
+
+    paginator = Paginator(productos_list, 5)
+    page_number = request.GET.get("page")
+    productos = paginator.get_page(page_number)
     return render(request, "core/productos.html", {"productos": productos})
 
 
