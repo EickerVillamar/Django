@@ -24,7 +24,24 @@
       </button>
     </form>
   </div>
+        <div class="flex gap-2 mb-4">
 
+  <a href="?orden=nombre{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" 
+  class="bg-gray-200 px-3 py-1 rounded">
+  Ordenar por nombre
+  </a>
+
+  <a href="?orden=precio{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" 
+  class="bg-gray-200 px-3 py-1 rounded">
+  Ordenar por precio
+  </a>
+
+  <a href="?orden=-creado{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" 
+  class="bg-gray-200 px-3 py-1 rounded">
+  Más recientes
+  </a>
+
+  </div>
 
   <ul class="mt-6 space-y-2">
     {% for producto in productos %}
@@ -44,4 +61,29 @@
       </li>
     {% endfor %}
   </ul>
+  {% if productos.has_other_pages %}
+
+<div class="flex justify-center mt-8 gap-2">
+
+  {% if productos.has_previous %}
+    <a href="?page={{ productos.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+       class="px-3 py-1 bg-gray-300 rounded">
+       Anterior
+    </a>
+  {% endif %}
+
+  <span class="px-3 py-1 bg-gray-200 rounded">
+    Página {{ productos.number }} de {{ productos.paginator.num_pages }}
+  </span>
+
+  {% if productos.has_next %}
+    <a href="?page={{ productos.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+       class="px-3 py-1 bg-gray-300 rounded">
+       Siguiente
+    </a>
+  {% endif %}
+
+</div>
+
+{% endif %}
 {% endblock %}
